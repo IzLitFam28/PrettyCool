@@ -2,18 +2,18 @@ package controller;
 
 import java.util.ArrayList;
 
+import factory.DeviceFactory;
 import model.Device;
 
 public class SmartHome {
 
 	private ArrayList<Device> devices;
 
-    public SmartHome() {
+    public SmartHome(DeviceFactory factory) {
         devices = new ArrayList<>();
-    }
-
-    public void addDevice(Device device) {
-        devices.add(device);
+        devices.add(factory.createLight());
+        devices.add(factory.createThermostat());
+        devices.add(factory.createCamera());
     }
 
     public void listDevices() {

@@ -1,32 +1,39 @@
 package main;
 
 import controller.SmartHome;
-import model.Device;
+import factory.AdvancedHomeFactory;
+import factory.BasicHomeFactory;
+import factory.DeviceFactory;
 import model.User;
 
 public class Main {
 
 	public Main() {
-		// TODO Auto-generated constructor stub
-		// Membuat rumah pintar
-        SmartHome home = new SmartHome();
+		// Membuat rumah pintar berdasarkan jenis (Rumah Dasar)
+        System.out.println("Membuat Rumah Dasar:");
+        DeviceFactory basicFactory = new BasicHomeFactory();
+        SmartHome basicHome = new SmartHome(basicFactory);
+        basicHome.listDevices();
 
-        // Menambahkan perangkat
-        home.addDevice(new Device("Lampu Ruang Tamu", "Lampu"));
-        home.addDevice(new Device("Termostat", "Termostat"));
-        home.addDevice(new Device("Kamera Keamanan", "Kamera"));
+        // Pengguna mengontrol perangkat di Rumah Dasar
+        System.out.println("\nPengguna mengontrol perangkat di Rumah Dasar:");
+        User user1 = new User("Alice");
+        user1.controlDevice(basicHome, "Lampu Biasa", "ON");
+        user1.controlDevice(basicHome, "Termostat Standar", "COOLING");
+        basicHome.listDevices();
 
-        // Menampilkan daftar perangkat
-        home.listDevices();
+        // Membuat rumah pintar berdasarkan jenis (Rumah Canggih)
+        System.out.println("\nMembuat Rumah Canggih:");
+        DeviceFactory advancedFactory = new AdvancedHomeFactory();
+        SmartHome advancedHome = new SmartHome(advancedFactory);
+        advancedHome.listDevices();
 
-        // Pengguna mengontrol perangkat
-        User user = new User("Alice");
-        user.controlDevice(home, "Lampu Ruang Tamu", "ON");
-        user.controlDevice(home, "Termostat", "COOLING");
-        user.controlDevice(home, "Kamera Keamanan", "ON");
-
-        // Menampilkan status perangkat setelah perubahan
-        home.listDevices();
+        // Pengguna mengontrol perangkat di Rumah Canggih
+        System.out.println("\nPengguna mengontrol perangkat di Rumah Canggih:");
+        User user2 = new User("Bob");
+        user2.controlDevice(advancedHome, "Lampu Pintar", "ON");
+        user2.controlDevice(advancedHome, "Kamera Keamanan AI", "ON");
+        advancedHome.listDevices();
 	}
 
 	public static void main(String[] args) {
