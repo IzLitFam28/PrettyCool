@@ -4,16 +4,30 @@ import java.util.ArrayList;
 
 import factory.DeviceFactory;
 import model.Device;
+import proxy.SecurityCamera;
+import proxy.SecurityCameraProxy;
 
 public class SmartHome {
 
 	private ArrayList<Device> devices;
+    private SecurityCameraProxy cameraProxy;
 
     public SmartHome(DeviceFactory factory) {
         devices = new ArrayList<>();
         devices.add(factory.createLight());
         devices.add(factory.createThermostat());
-        devices.add(factory.createCamera());
+        
+        // Kamera menggunakan Proxy
+        SecurityCamera camera = new SecurityCamera(factory.createCamera().getName());
+        cameraProxy = new SecurityCameraProxy(camera);
+    }
+
+    public void addAuthorizedUser(String user) {
+        cameraProxy.addAuthorizedUser(user);
+    }
+
+    public void accessCamera(String user) {
+        cameraProxy.accessCamera(user);
     }
 
     public void listDevices() {

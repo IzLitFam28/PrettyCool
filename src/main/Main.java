@@ -4,7 +4,6 @@ import controller.SmartHome;
 import factory.AdvancedHomeFactory;
 import factory.BasicHomeFactory;
 import factory.DeviceFactory;
-import model.User;
 
 public class Main {
 
@@ -15,12 +14,13 @@ public class Main {
         SmartHome basicHome = new SmartHome(basicFactory);
         basicHome.listDevices();
 
-        // Pengguna mengontrol perangkat di Rumah Dasar
-        System.out.println("\nPengguna mengontrol perangkat di Rumah Dasar:");
-        User user1 = new User("Alice");
-        user1.controlDevice(basicHome, "Lampu Biasa", "ON");
-        user1.controlDevice(basicHome, "Termostat Standar", "COOLING");
-        basicHome.listDevices();
+        // Menambahkan pengguna yang diotorisasi
+        basicHome.addAuthorizedUser("Alice");
+
+        // Pengguna mencoba mengakses kamera
+        System.out.println("\nPengguna mencoba mengakses kamera:");
+        basicHome.accessCamera("Alice"); // Akses diberikan
+        basicHome.accessCamera("Bob");  // Akses ditolak
 
         // Membuat rumah pintar berdasarkan jenis (Rumah Canggih)
         System.out.println("\nMembuat Rumah Canggih:");
@@ -28,12 +28,13 @@ public class Main {
         SmartHome advancedHome = new SmartHome(advancedFactory);
         advancedHome.listDevices();
 
-        // Pengguna mengontrol perangkat di Rumah Canggih
-        System.out.println("\nPengguna mengontrol perangkat di Rumah Canggih:");
-        User user2 = new User("Bob");
-        user2.controlDevice(advancedHome, "Lampu Pintar", "ON");
-        user2.controlDevice(advancedHome, "Kamera Keamanan AI", "ON");
-        advancedHome.listDevices();
+        // Menambahkan pengguna yang diotorisasi
+        advancedHome.addAuthorizedUser("Bob");
+
+        // Pengguna mencoba mengakses kamera
+        System.out.println("\nPengguna mencoba mengakses kamera:");
+        advancedHome.accessCamera("Alice"); // Akses ditolak
+        advancedHome.accessCamera("Bob");   // Akses diberikan
 	}
 
 	public static void main(String[] args) {
