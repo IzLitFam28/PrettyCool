@@ -1,10 +1,9 @@
 package main;
 
 import controller.SmartHome;
-import factory.AdvancedHomeFactory;
 import factory.BasicHomeFactory;
 import factory.DeviceFactory;
-import model.User;
+import model.Device;
 
 public class Main {
 
@@ -15,25 +14,18 @@ public class Main {
         SmartHome basicHome = new SmartHome(basicFactory);
         basicHome.listDevices();
 
-        // Pengguna mencoba mengontrol perangkat di Rumah Dasar
-        System.out.println("\nPengguna mencoba mengontrol perangkat di Rumah Dasar:");
-        User user1 = new User("Alice");
-        user1.controlDevice(basicHome, "Lampu Biasa", "ON");
-        user1.controlDevice(basicHome, "Termostat Standar", "COOLING");
-        basicHome.listDevices();
+        // Mengontrol Lampu
+        System.out.println("\nMengontrol Lampu:");
+        Device lamp = new Device("Lampu Biasa", "Lampu");
+        lamp.turnOn();
+        lamp.turnOff();
 
-        // Membuat rumah pintar berdasarkan jenis (Rumah Canggih)
-        System.out.println("\nMembuat Rumah Canggih:");
-        DeviceFactory advancedFactory = new AdvancedHomeFactory();
-        SmartHome advancedHome = new SmartHome(advancedFactory);
-        advancedHome.listDevices();
-
-        // Pengguna mencoba mengontrol perangkat di Rumah Canggih
-        System.out.println("\nPengguna mencoba mengontrol perangkat di Rumah Canggih:");
-        User user2 = new User("Bob");
-        user2.controlDevice(advancedHome, "Lampu Pintar", "ON");
-        user2.controlDevice(advancedHome, "Kamera Keamanan AI", "ON");
-        advancedHome.listDevices();
+        // Mengontrol Termostat
+        System.out.println("\nMengontrol Termostat:");
+        Device thermostat = new Device("Termostat Standar", "Termostat");
+        thermostat.cool();
+        thermostat.heat();
+        thermostat.idle();
 	}
 
 	public static void main(String[] args) {

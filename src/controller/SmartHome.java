@@ -19,7 +19,7 @@ public class SmartHome implements DeviceIterable {
         devices = new ArrayList<>();
         devices.add(factory.createLight());
         devices.add(factory.createThermostat());
-        
+
         // Kamera menggunakan Proxy
         SecurityCamera camera = new SecurityCamera(factory.createCamera().getName());
         cameraProxy = new SecurityCameraProxy(camera);
@@ -38,14 +38,32 @@ public class SmartHome implements DeviceIterable {
         DeviceIterator iterator = createIterator();
         while (iterator.hasNext()) {
             Device device = iterator.next();
-            System.out.println("- " + device.getName() + " (" + device.getType() + ") : " + device.getState());
+            System.out.println("- " + device.getName() + " (" + device.getType() + ") : " + device.getStateName());
         }
     }
 
-    public void changeDeviceState(String deviceName, String newState) {
+    public void changeDeviceState(String deviceName, String action) {
         for (Device device : devices) {
             if (device.getName().equalsIgnoreCase(deviceName)) {
-                device.setState(newState);
+                switch (action.toUpperCase()) {
+                    case "ON":
+                        device.turnOn();
+                        break;
+                    case "OFF":
+                        device.turnOff();
+                        break;
+                    case "COOL":
+                        device.cool();
+                        break;
+                    case "HEAT":
+                        device.heat();
+                        break;
+                    case "IDLE":
+                        device.idle();
+                        break;
+                    default:
+                        System.out.println("Aksi tidak dikenal: " + action);
+                }
                 return;
             }
         }
