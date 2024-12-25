@@ -4,6 +4,7 @@ import controller.SmartHome;
 import factory.BasicHomeFactory;
 import factory.DeviceFactory;
 import model.Device;
+import model.User;
 
 public class Main {
 
@@ -12,20 +13,30 @@ public class Main {
         System.out.println("Membuat Rumah Dasar:");
         DeviceFactory basicFactory = new BasicHomeFactory();
         SmartHome basicHome = new SmartHome(basicFactory);
-        basicHome.listDevices();
 
-        // Mengontrol Lampu
-        System.out.println("\nMengontrol Lampu:");
+        // Tambahkan observer untuk melihat perubahan status perangkat
+        User alice = new User("Alice");
+        User bob = new User("Bob");
+
         Device lamp = new Device("Lampu Biasa", "Lampu");
-        lamp.turnOn();
-        lamp.turnOff();
+        lamp.addObserver(alice);
+        lamp.addObserver(bob);
 
-        // Mengontrol Termostat
-        System.out.println("\nMengontrol Termostat:");
         Device thermostat = new Device("Termostat Standar", "Termostat");
-        thermostat.cool();
-        thermostat.heat();
-        thermostat.idle();
+        thermostat.addObserver(alice);
+
+        // Mengontrol perangkat di rumah pintar
+        System.out.println("\nMengontrol Lampu:");
+        basicHome.changeDeviceState("Lampu Biasa", "ON");
+        basicHome.changeDeviceState("Lampu Biasa", "OFF");
+
+        System.out.println("\nMengontrol Termostat:");
+        basicHome.changeDeviceState("Termostat Standar", "COOL");
+        basicHome.changeDeviceState("Termostat Standar", "HEAT");
+        basicHome.changeDeviceState("Termostat Standar", "IDLE");
+
+        // Menampilkan daftar perangkat dengan status terkini
+        basicHome.listDevices();
 	}
 
 	public static void main(String[] args) {
